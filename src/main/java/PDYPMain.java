@@ -1,28 +1,22 @@
-import com.google.api.gax.paging.Page;
-import com.google.auth.oauth2.GoogleCredentials;
-import com.google.cloud.storage.Bucket;
-import com.google.cloud.storage.Storage;
-import com.google.cloud.storage.StorageOptions;
-import com.google.cloud.texttospeech.v1.AudioConfig;
-import com.google.cloud.texttospeech.v1.AudioEncoding;
-import com.google.cloud.texttospeech.v1.SsmlVoiceGender;
-import com.google.cloud.texttospeech.v1.SynthesisInput;
-import com.google.cloud.texttospeech.v1.SynthesizeSpeechResponse;
-import com.google.cloud.texttospeech.v1.TextToSpeechClient;
-import com.google.cloud.texttospeech.v1.VoiceSelectionParams;
-import com.google.common.collect.Lists;
+import com.google.api.gax.core.CredentialsProvider;
+import com.google.api.gax.core.FixedCredentialsProvider;
+import com.google.auth.oauth2.ServiceAccountCredentials;
+import com.google.cloud.texttospeech.v1.*;
 import com.google.protobuf.ByteString;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.OutputStream;
 
 public class PDYPMain {
 
     public static void main(String... args) throws Exception {
         // Instantiates a client
-        try (TextToSpeechClient textToSpeechClient = TextToSpeechClient.create()) {
+        CredentialsProvider credentialsProvider = FixedCredentialsProvider.create(ServiceAccountCredentials.fromStream(
+                new FileInputStream("/Users/sammieghabra/Downloads/supplefighter-bdd18c58332a.json")));
+        TextToSpeechSettings settings = TextToSpeechSettings.newBuilder().setCredentialsProvider(credentialsProvider).build();
+
+        try (TextToSpeechClient textToSpeechClient = TextToSpeechClient.create(settings)) {
             // Set the text input to be synthesized
             SynthesisInput input = SynthesisInput.newBuilder().setText("Hello, World!").build();
 
