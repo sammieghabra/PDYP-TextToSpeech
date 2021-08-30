@@ -13,12 +13,12 @@ public class PDYPMain {
     public static void main(String... args) throws Exception {
         // Instantiates a client
         CredentialsProvider credentialsProvider = FixedCredentialsProvider.create(ServiceAccountCredentials.fromStream(
-                new FileInputStream("/Users/sammieghabra/Downloads/supplefighter-bdd18c58332a.json")));
+                new FileInputStream(args[0])));
         TextToSpeechSettings settings = TextToSpeechSettings.newBuilder().setCredentialsProvider(credentialsProvider).build();
 
         try (TextToSpeechClient textToSpeechClient = TextToSpeechClient.create(settings)) {
             // Set the text input to be synthesized
-            SynthesisInput input = SynthesisInput.newBuilder().setText("Hello, World!").build();
+            SynthesisInput input = SynthesisInput.newBuilder().setText("Hey you!").build();
 
             // Build the voice request, select the language code ("en-US") and the ssml voice gender
             // ("neutral")
